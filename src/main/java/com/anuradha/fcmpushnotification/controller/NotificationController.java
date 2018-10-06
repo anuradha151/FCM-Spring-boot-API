@@ -1,7 +1,9 @@
 package com.anuradha.fcmpushnotification.controller;
 
 import com.anuradha.fcmpushnotification.dto.NotificationDTO;
+import com.anuradha.fcmpushnotification.dto.TopicDTO;
 import com.anuradha.fcmpushnotification.service.impl.NotificationServiceImpl;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.PostConstruct;
 
 @RestController
 @RequestMapping("/notification")
@@ -34,6 +34,16 @@ public class NotificationController {
         }
     }
 
+    @PostMapping("/create-topic")
+    public ResponseEntity<?> createTopic(@RequestBody TopicDTO topicDTO) {
+        try {
+            return notificationServiceImpl.createTopic(topicDTO);
+        } catch (FirebaseMessagingException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Topic creation failed...!", HttpStatus.BAD_REQUEST);
+        }
+
+    }
 
 
 }

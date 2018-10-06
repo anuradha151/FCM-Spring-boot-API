@@ -1,24 +1,21 @@
 package com.anuradha.fcmpushnotification.service.impl;
 
 import com.anuradha.fcmpushnotification.dto.NotificationDTO;
-import com.anuradha.fcmpushnotification.model.ResponseModel;
-import com.google.firebase.messaging.AndroidConfig;
-import com.google.firebase.messaging.AndroidNotification;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.Message;
+import com.anuradha.fcmpushnotification.dto.TopicDTO;
+import com.anuradha.fcmpushnotification.service.NotificationService;
+import com.google.firebase.messaging.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NotificationServiceImpl {
+public class NotificationServiceImpl implements NotificationService {
 
-    public ResponseEntity<?> sendToTopic(NotificationDTO notificationDTO) throws Exception {
+    @Override
+    public ResponseEntity<?> sendToTopic(NotificationDTO notificationDTO) throws FirebaseMessagingException {
 
-        String response;
 
-        // See documentation on defining a message payload.
-
+        // Create message payload
         Message message = Message.builder()
                 .setAndroidConfig(AndroidConfig.builder()
                         // Time to live - 4 weeks default and maximum
@@ -32,22 +29,27 @@ public class NotificationServiceImpl {
                         .build())
                 .setTopic(notificationDTO.getTopic())
                 .build();
+
         // Send a message to the devices subscribed to the provided topic.
-
-
-        System.out.println(FirebaseMessaging.getInstance());
-
-        response = FirebaseMessaging.getInstance().send(message);
-
+        String response = FirebaseMessaging.getInstance().send(message);
 
         // Response is a message ID string.
         System.out.println("Successfully sent message: " + response);
 
-        // Create Response
-        ResponseModel res = new ResponseModel(HttpStatus.OK.value(), "Notification sent successfully", true);
-        return new ResponseEntity<>(res, HttpStatus.OK);
+        // Create Response - return message id
+        return new ResponseEntity<>(response, HttpStatus.OK);
 
 
+    }
+
+    @Override
+    public ResponseEntity<?> createTopic(TopicDTO topicDTO) throws FirebaseMessagingException {
+        TopicManagementResponse response = FirebaseMessaging.getInstance().subscribeToTopic(
+                topicDTO.getDeviceTokens(),
+                topicDTO.getTopic()
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }
