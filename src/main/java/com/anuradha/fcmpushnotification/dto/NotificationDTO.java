@@ -1,6 +1,8 @@
 package com.anuradha.fcmpushnotification.dto;
 
-public class NotificationDTO {
+import java.io.Serializable;
+
+public class NotificationDTO implements Serializable {
 
     private String title;
     private String topic;

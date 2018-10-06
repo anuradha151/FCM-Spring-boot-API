@@ -1,10 +1,14 @@
 package com.anuradha.fcmpushnotification.controller;
 
 import com.anuradha.fcmpushnotification.dto.NotificationDTO;
-import com.anuradha.fcmpushnotification.service.NotificationServiceImpl;
+import com.anuradha.fcmpushnotification.service.impl.NotificationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/notification")
@@ -20,12 +24,12 @@ public class NotificationController {
 
     @PostMapping("/to-topic")
     public ResponseEntity<?> sendToTopic(@RequestBody NotificationDTO notificationDTO) {
-        return notificationServiceImpl.sendToTopic(notificationDTO);
-    }
-
-    @GetMapping("/initializeFCM")
-    public ResponseEntity<?> initializeFCM() {
-        return notificationServiceImpl.initializeFCM();
+        try {
+            return notificationServiceImpl.sendToTopic(notificationDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Message sending failed..!", HttpStatus.BAD_REQUEST);
+        }
     }
 
 

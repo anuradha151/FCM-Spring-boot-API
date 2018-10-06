@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @Configuration
@@ -16,7 +15,7 @@ public class FCMConfig {
     @PostConstruct
     public void initFCM() {
 
-        FileInputStream serviceAccount = null;
+        FileInputStream serviceAccount;
         try {
             serviceAccount = new FileInputStream("fcmtest-credentials.json");
 
@@ -32,8 +31,6 @@ public class FCMConfig {
             System.out.println(firebaseApp);
 
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
