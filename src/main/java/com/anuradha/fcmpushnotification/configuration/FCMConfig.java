@@ -5,6 +5,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.io.IOException;
 @Configuration
 public class FCMConfig {
 
+    @PostConstruct
     public void initFCM() {
 
         FileInputStream serviceAccount = null;

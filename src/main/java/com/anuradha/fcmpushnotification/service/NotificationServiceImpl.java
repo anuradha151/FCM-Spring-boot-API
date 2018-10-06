@@ -29,7 +29,9 @@ public class NotificationServiceImpl {
                     .setDatabaseUrl("https://fcmtest-c9511.firebaseio.com")
                     .build();
 
-            FirebaseApp.initializeApp(options);
+            FirebaseApp firebaseApp = FirebaseApp.initializeApp(options);
+
+            System.out.println("\n\nFirebaseApp  : " + firebaseApp + "\n\n");
 
 
             sendToTopic(new NotificationDTO());
