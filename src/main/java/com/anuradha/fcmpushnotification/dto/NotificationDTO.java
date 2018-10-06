@@ -8,12 +8,12 @@ public class NotificationDTO {
     // The notification's icon color, expressed in #rrggbb format.
     private String color;
     // Time-To-Live.How long the message will be kept in FCM storage if the target devices are offline.
-    private int tTL;
+    private long tTL;
 
     public NotificationDTO() {
     }
 
-    public NotificationDTO(String title, String topic, String body, String color, int tTL) {
+    public NotificationDTO(String title, String topic, String body, String color, long tTL) {
         this.title = title;
         this.topic = topic;
         this.body = body;
@@ -64,11 +64,11 @@ public class NotificationDTO {
         this.color = color;
     }
 
-    public int gettTL() {
+    public long gettTL() {
         return tTL;
     }
 
-    public void settTL(int tTL) {
+    public void settTL(long tTL) {
         this.tTL = tTL;
     }
 }
