@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
+
 @RestController
 @RequestMapping("/notification")
 public class NotificationController {
@@ -31,6 +33,7 @@ public class NotificationController {
             return new ResponseEntity<>("Message sending failed..!", HttpStatus.BAD_REQUEST);
         }
     }
+
 
 
 }

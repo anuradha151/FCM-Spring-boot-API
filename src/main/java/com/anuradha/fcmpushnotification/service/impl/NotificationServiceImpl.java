@@ -14,25 +14,23 @@ import org.springframework.stereotype.Service;
 public class NotificationServiceImpl {
 
     public ResponseEntity<?> sendToTopic(NotificationDTO notificationDTO) throws Exception {
-        String topic = "springTopic05";
-        String response = null;
+
+        String response;
 
         // See documentation on defining a message payload.
 
         Message message = Message.builder()
                 .setAndroidConfig(AndroidConfig.builder()
                         // Time to live - 4 weeks default and maximum
-                        .setTtl(3600 * 1000) //1 hour in milliseconds
+                        .setTtl(notificationDTO.gettTL()) //1 hour in milliseconds
                         .setPriority(AndroidConfig.Priority.NORMAL)
                         .setNotification(AndroidNotification.builder()
-                                .setTitle("Anuradha")
-                                .setBody("Im the boss")
-                                .setIcon("stock_ticker_update")
-
-                                .setColor("#0066ff")
+                                .setTitle(notificationDTO.getTitle())
+                                .setBody(notificationDTO.getBody())
+                                .setColor(notificationDTO.getColor())
                                 .build())
                         .build())
-                .setTopic("springTopic05")
+                .setTopic(notificationDTO.getTopic())
                 .build();
         // Send a message to the devices subscribed to the provided topic.
 
