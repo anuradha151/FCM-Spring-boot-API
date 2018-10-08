@@ -11,4 +11,6 @@ public interface NotificationService {
 
     ResponseEntity<?> createTopic(TopicDTO topicDTO) throws FirebaseMessagingException;
 
+    ResponseEntity<?> unsubscribe(TopicDTO topicDTO) throws FirebaseMessagingException;
+
 }
