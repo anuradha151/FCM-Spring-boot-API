@@ -7,18 +7,12 @@ import com.google.firebase.messaging.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
-
-    @Scheduled(cron = "* * * * *")
-    public static void testSchedule() {
-        System.out.println("cron is working");
-    }
 
     @Override
     public ResponseEntity<?> sendToTopic(NotificationDTO notificationDTO) throws FirebaseMessagingException {
@@ -63,7 +57,7 @@ public class NotificationServiceImpl implements NotificationService {
 //    @Scheduled(cron = "1 * * * *")
     public String send(Message message, Date date) throws FirebaseMessagingException {
 
-        testSchedule();
+
 //        FirebaseMessaging.getInstance().send(message);
 //        Date nowDate = new Date();
 //        if (nowDate.equals(date)) {
