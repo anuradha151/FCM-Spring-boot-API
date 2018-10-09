@@ -60,23 +60,6 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
 
-    @Override
-    public ResponseEntity<?> createTopic(TopicDTO topicDTO) throws FirebaseMessagingException {
-        TopicManagementResponse response = FirebaseMessaging.getInstance().subscribeToTopic(
-                topicDTO.getDeviceTokens(),
-                topicDTO.getTopic()
-        );
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<?> unsubscribe(TopicDTO topicDTO) throws FirebaseMessagingException {
-        TopicManagementResponse response = FirebaseMessaging.getInstance().unsubscribeFromTopic(
-                topicDTO.getDeviceTokens(),
-                topicDTO.getTopic()
-        );
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 
 }
