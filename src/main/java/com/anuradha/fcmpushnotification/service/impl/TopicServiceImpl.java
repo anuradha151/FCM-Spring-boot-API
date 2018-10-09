@@ -61,4 +61,11 @@ public class TopicServiceImpl implements TopicService {
         return topic;
 
     }
+
+    private TopicDTO entityToDTO(Topic topic) {
+        TopicDTO topicDTO = new TopicDTO();
+        topicDTO.setTopic(topic.getTopic());
+        topicDTO.setDeviceTokens(topic.getDeviceTokens());
+        return topicDTO;
+    }
 }
