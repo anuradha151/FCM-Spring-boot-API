@@ -63,6 +63,8 @@ public class TopicServiceImpl implements TopicService {
             e.printStackTrace();
             return new ResponseEntity<>("topic unsubscription failed due to firebase server error", HttpStatus.EXPECTATION_FAILED);
         }
+//        topicRepository.dele
+        
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
