@@ -6,6 +6,7 @@ import com.anuradha.fcmpushnotification.service.NotificationService;
 import com.google.firebase.messaging.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,17 +22,21 @@ public class NotificationServiceImpl implements NotificationService {
                         // Time to live - 4 weeks default and maximum
                         .setTtl(notificationDTO.gettTL()) //1 hour in milliseconds
                         .setPriority(AndroidConfig.Priority.NORMAL)
-                        .setNotification(AndroidNotification.builder()
-                                .setTitle(notificationDTO.getTitle())
-                                .setBody(notificationDTO.getBody())
-                                .setColor(notificationDTO.getColor())
-                                .build())
+                        .setNotification(
+                                AndroidNotification
+                                        .builder()
+                                        .setTitle(notificationDTO.getTitle())
+                                        .setBody(notificationDTO.getBody())
+                                        .setColor(notificationDTO.getColor())
+                                        .build()
+                        )
                         .build())
                 .setTopic(notificationDTO.getTopic())
                 .build();
 
         // Send a message to the devices subscribed to the provided topic.
-        String response = FirebaseMessaging.getInstance().send(message);
+
+        String response = send(message);
 
         // Response is a message ID string.
         System.out.println("Successfully sent message: " + response);
@@ -39,6 +44,13 @@ public class NotificationServiceImpl implements NotificationService {
         // Create Response - return message id
         return new ResponseEntity<>(response, HttpStatus.OK);
 
+
+    }
+
+    @Scheduled(cron = "0 1 * * *")
+    public String send(Message message) throws FirebaseMessagingException {
+
+        return FirebaseMessaging.getInstance().send(message);
 
     }
 
