@@ -6,11 +6,19 @@ import com.anuradha.fcmpushnotification.service.NotificationService;
 import com.google.firebase.messaging.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class NotificationServiceImpl implements NotificationService {
+
+    @Scheduled(cron = "* * * * *")
+    public static void testSchedule() {
+        System.out.println("cron is working");
+    }
 
     @Override
     public ResponseEntity<?> sendToTopic(NotificationDTO notificationDTO) throws FirebaseMessagingException {
@@ -36,7 +44,11 @@ public class NotificationServiceImpl implements NotificationService {
 
         // Send a message to the devices subscribed to the provided topic.
 
-        String response = send(message);
+        String response = send(message, notificationDTO.getDate());
+
+        if (response.equals("alive")) {
+            return new ResponseEntity<>("Message sending in processes", HttpStatus.PROCESSING);
+        }
 
         // Response is a message ID string.
         System.out.println("Successfully sent message: " + response);
@@ -47,10 +59,21 @@ public class NotificationServiceImpl implements NotificationService {
 
     }
 
-    @Scheduled(cron = "0 1 * * *")
-    public String send(Message message) throws FirebaseMessagingException {
+    @Async
+//    @Scheduled(cron = "1 * * * *")
+    public String send(Message message, Date date) throws FirebaseMessagingException {
 
-        return FirebaseMessaging.getInstance().send(message);
+        testSchedule();
+//        FirebaseMessaging.getInstance().send(message);
+//        Date nowDate = new Date();
+//        if (nowDate.equals(date)) {
+//
+//            System.out.println("message send method");
+//
+//            return FirebaseMessaging.getInstance().send(message);
+//        }
+        return "alive";
+
 
     }
 

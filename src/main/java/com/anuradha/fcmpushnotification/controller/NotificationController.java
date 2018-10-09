@@ -25,6 +25,9 @@ public class NotificationController {
 
     @PostMapping("/to-topic")
     public ResponseEntity<?> sendToTopic(@RequestBody NotificationDTO notificationDTO) {
+
+        System.out.println("date and time : " + notificationDTO.getDate());
+
         try {
             return notificationService.sendToTopic(notificationDTO);
         } catch (Exception e) {

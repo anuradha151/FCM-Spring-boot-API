@@ -1,6 +1,7 @@
 package com.anuradha.fcmpushnotification.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class NotificationDTO implements Serializable {
 
@@ -9,18 +10,20 @@ public class NotificationDTO implements Serializable {
     private String body;
     // The notification's icon color, expressed in #rrggbb format.
     private String color;
+    private Date date;
     // Time-To-Live.How long the message will be kept in FCM storage if the target devices are offline.
     private long tTL;
 
     public NotificationDTO() {
     }
 
-    public NotificationDTO(String title, String topic, String body, String color, long tTL) {
-        this.title = title;
-        this.topic = topic;
-        this.body = body;
-        this.color = color;
-        this.tTL = tTL;
+    public NotificationDTO(String title, String topic, String body, String color, Date date, long tTL) {
+        this.setTitle(title);
+        this.setTopic(topic);
+        this.setBody(body);
+        this.setColor(color);
+        this.setDate(date);
+        this.settTL(tTL);
     }
 
     @Override
@@ -30,6 +33,7 @@ public class NotificationDTO implements Serializable {
                 ", topic='" + topic + '\'' +
                 ", body='" + body + '\'' +
                 ", color='" + color + '\'' +
+                ", date=" + date +
                 ", tTL=" + tTL +
                 '}';
     }
@@ -64,6 +68,14 @@ public class NotificationDTO implements Serializable {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public long gettTL() {
