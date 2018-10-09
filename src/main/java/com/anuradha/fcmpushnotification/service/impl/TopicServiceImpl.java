@@ -25,16 +25,22 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     @Async
-    public ResponseEntity<?> subscribe(TopicDTO topicDTO) throws FirebaseMessagingException {
+    public ResponseEntity<?> subscribe(TopicDTO topicDTO) {
 
         if (topicDTO == null) {
             return new ResponseEntity<>("Topic details unavailable", HttpStatus.BAD_REQUEST);
         }
 
-        TopicManagementResponse response = FirebaseMessaging.getInstance().subscribeToTopic(
-                topicDTO.getDeviceTokens(),
-                topicDTO.getTopic()
-        );
+        TopicManagementResponse response = null;
+        try {
+            response = FirebaseMessaging.getInstance().subscribeToTopic(
+                    topicDTO.getDeviceTokens(),
+                    topicDTO.getTopic()
+            );
+        } catch (FirebaseMessagingException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Topic creation failed due to firebase server error", HttpStatus.EXPECTATION_FAILED);
+        }
 
         Topic save = topicRepository.save(dTOToEntity(topicDTO));
         if (save == null) {
@@ -46,11 +52,17 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     @Async
-    public ResponseEntity<?> unsubscribe(TopicDTO topicDTO) throws FirebaseMessagingException {
-        TopicManagementResponse response = FirebaseMessaging.getInstance().unsubscribeFromTopic(
-                topicDTO.getDeviceTokens(),
-                topicDTO.getTopic()
-        );
+    public ResponseEntity<?> unsubscribe(TopicDTO topicDTO) {
+        TopicManagementResponse response = null;
+        try {
+            response = FirebaseMessaging.getInstance().unsubscribeFromTopic(
+                    topicDTO.getDeviceTokens(),
+                    topicDTO.getTopic()
+            );
+        } catch (FirebaseMessagingException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("topic unsubscription failed due to firebase server error", HttpStatus.EXPECTATION_FAILED);
+        }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
