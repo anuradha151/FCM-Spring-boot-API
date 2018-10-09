@@ -12,7 +12,7 @@ import java.util.Date;
 public class ScheduleTask {
 
     @Async
-    @Scheduled(cron = "1 * * * *")
+    @Scheduled(cron = "* * * * *")
     public String send(Message message, Date date) throws FirebaseMessagingException {
 
         System.out.println("cron is running");
