@@ -3,16 +3,22 @@ package com.anuradha.fcmpushnotification.service.impl;
 import com.anuradha.fcmpushnotification.dto.NotificationDTO;
 import com.anuradha.fcmpushnotification.dto.TopicDTO;
 import com.anuradha.fcmpushnotification.service.NotificationService;
+import com.anuradha.fcmpushnotification.util.ScheduleTask;
 import com.google.firebase.messaging.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
+
+    private final ScheduleTask scheduleTask;
+
+    @Autowired
+    public NotificationServiceImpl(ScheduleTask scheduleTask) {
+        this.scheduleTask = scheduleTask;
+    }
 
     @Override
     public ResponseEntity<?> sendToTopic(NotificationDTO notificationDTO) throws FirebaseMessagingException {
@@ -38,7 +44,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         // Send a message to the devices subscribed to the provided topic.
 
-        String response = send(message, notificationDTO.getDate());
+        String response = scheduleTask.send(message, notificationDTO.getDate());
 
         if (response.equals("alive")) {
             return new ResponseEntity<>("Message sending in processes", HttpStatus.PROCESSING);
@@ -53,23 +59,6 @@ public class NotificationServiceImpl implements NotificationService {
 
     }
 
-    @Async
-//    @Scheduled(cron = "1 * * * *")
-    public String send(Message message, Date date) throws FirebaseMessagingException {
-
-
-//        FirebaseMessaging.getInstance().send(message);
-//        Date nowDate = new Date();
-//        if (nowDate.equals(date)) {
-//
-//            System.out.println("message send method");
-//
-//            return FirebaseMessaging.getInstance().send(message);
-//        }
-        return "alive";
-
-
-    }
 
     @Override
     public ResponseEntity<?> createTopic(TopicDTO topicDTO) throws FirebaseMessagingException {
