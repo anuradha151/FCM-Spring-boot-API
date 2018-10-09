@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class NotificationServiceImpl implements NotificationService {
 
+
     private final ScheduleTask scheduleTask;
 
     @Autowired
@@ -43,7 +44,6 @@ public class NotificationServiceImpl implements NotificationService {
                 .build();
 
         // Send a message to the devices subscribed to the provided topic.
-
         String response = scheduleTask.send(message, notificationDTO.getDate());
 
         if (response.equals("alive")) {
