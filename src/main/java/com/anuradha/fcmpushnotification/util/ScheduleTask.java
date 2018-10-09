@@ -30,7 +30,7 @@ public class ScheduleTask {
 //        FirebaseMessaging.getInstance().send(this.message);
 //        Date nowDate = new Date();
 //        if (nowDate.equals(date)) {
-//
+
 //            System.out.println("message send method");
 //
 //            return FirebaseMessaging.getInstance().send(message);
