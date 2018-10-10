@@ -1,12 +1,10 @@
 package com.anuradha.fcmpushnotification.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "notification")
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +18,7 @@ public class Notification {
     // Time-To-Live.How long the message will be kept in FCM storage if the target devices are offline.
     private long tTL;
     private String status;
+    // sending time - NOW/LATER/ANNUALLY
     private String condition;
 
     public Notification() {

@@ -102,7 +102,7 @@ public class TopicServiceImpl implements TopicService {
     private Topic dTOToEntity(TopicDTO topicDTO) {
         Topic topic = new Topic();
         topic.setTopic(topicDTO.getTopic());
-        topic.setDeviceTokens(topicDTO.getDeviceTokens());
+//        topic.set(topicDTO.getDeviceTokens());
         return topic;
 
     }
@@ -110,7 +110,7 @@ public class TopicServiceImpl implements TopicService {
     private TopicDTO entityToDTO(Topic topic) {
         TopicDTO topicDTO = new TopicDTO();
         topicDTO.setTopic(topic.getTopic());
-        topicDTO.setDeviceTokens(topic.getDeviceTokens());
+//        topicDTO.setDeviceTokens(topic.getDeviceTokens());
         return topicDTO;
     }
 }
