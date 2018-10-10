@@ -86,6 +86,12 @@ public class TopicServiceImpl implements TopicService {
         return new ResponseEntity<>(topicDTOS, HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<?> findTopicByName(String topic) {
+        return null;
+
+    }
+
     private Topic dTOToEntity(TopicDTO topicDTO) {
         Topic topic = new Topic();
         topic.setTopic(topicDTO.getTopic());
