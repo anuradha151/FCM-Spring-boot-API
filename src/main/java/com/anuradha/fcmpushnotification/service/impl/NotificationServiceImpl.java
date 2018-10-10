@@ -1,6 +1,7 @@
 package com.anuradha.fcmpushnotification.service.impl;
 
 import com.anuradha.fcmpushnotification.dto.NotificationDTO;
+import com.anuradha.fcmpushnotification.model.Notification;
 import com.anuradha.fcmpushnotification.repository.NotificationRepository;
 import com.anuradha.fcmpushnotification.service.NotificationService;
 import com.anuradha.fcmpushnotification.util.ScheduleTask;
@@ -68,7 +69,24 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public ResponseEntity<?> saveNotification(NotificationDTO notificationDTO) {
+        Notification save = notificationRepository.save(dTOToEntity(notificationDTO));
+        if (save == null) {
+            return new ResponseEntity<>("Notification saving failed", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Notification saved successfully", HttpStatus.OK);
+    }
 
+    private Notification dTOToEntity(NotificationDTO notificationDTO) {
+        Notification notification = new Notification();
+        notification.setBody(notificationDTO.getBody());
+        notification.setColor(notificationDTO.getColor());
+        notification.setDate(notificationDTO.getDate());
+        notification.setStatus(notificationDTO.getStatus());
+        notification.setTitle(notificationDTO.getTitle());
+        notification.settTL(notificationDTO.gettTL());
+        notification.setTopic(notificationDTO.getTopic());
+        notification.setCondition(notificationDTO.getCondition());
+        return notification;
     }
 
 

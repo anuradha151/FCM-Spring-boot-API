@@ -20,11 +20,12 @@ public class Notification {
     // Time-To-Live.How long the message will be kept in FCM storage if the target devices are offline.
     private long tTL;
     private String status;
+    private String condition;
 
     public Notification() {
     }
 
-    public Notification(String title, String topic, String body, String color, Date date, long tTL, String status) {
+    public Notification(String title, String topic, String body, String color, Date date, long tTL, String status, String condition) {
         this.setTitle(title);
         this.setTopic(topic);
         this.setBody(body);
@@ -32,6 +33,22 @@ public class Notification {
         this.setDate(date);
         this.settTL(tTL);
         this.setStatus(status);
+        this.setCondition(condition);
+    }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "id=" + getId() +
+                ", title='" + getTitle() + '\'' +
+                ", topic='" + getTopic() + '\'' +
+                ", body='" + getBody() + '\'' +
+                ", color='" + getColor() + '\'' +
+                ", date=" + getDate() +
+                ", tTL=" + gettTL() +
+                ", status='" + getStatus() + '\'' +
+                ", condition='" + getCondition() + '\'' +
+                '}';
     }
 
     public long getId() {
@@ -96,5 +113,13 @@ public class Notification {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
     }
 }

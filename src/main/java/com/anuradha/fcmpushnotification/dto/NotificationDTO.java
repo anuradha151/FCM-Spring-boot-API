@@ -13,28 +13,36 @@ public class NotificationDTO implements Serializable {
     private Date date;
     // Time-To-Live.How long the message will be kept in FCM storage if the target devices are offline.
     private long tTL;
+    // ALIVE or DEAD
+    private String status;
+    // sending time - NOW/LATER/ANNUALLY
+    private String condition;
 
     public NotificationDTO() {
     }
 
-    public NotificationDTO(String title, String topic, String body, String color, Date date, long tTL) {
+    public NotificationDTO(String title, String topic, String body, String color, Date date, long tTL, String status, String condition) {
         this.setTitle(title);
         this.setTopic(topic);
         this.setBody(body);
         this.setColor(color);
         this.setDate(date);
         this.settTL(tTL);
+        this.setStatus(status);
+        this.setCondition(condition);
     }
 
     @Override
     public String toString() {
         return "NotificationDTO{" +
-                "title='" + title + '\'' +
-                ", topic='" + topic + '\'' +
-                ", body='" + body + '\'' +
-                ", color='" + color + '\'' +
-                ", date=" + date +
-                ", tTL=" + tTL +
+                "title='" + getTitle() + '\'' +
+                ", topic='" + getTopic() + '\'' +
+                ", body='" + getBody() + '\'' +
+                ", color='" + getColor() + '\'' +
+                ", date=" + getDate() +
+                ", tTL=" + gettTL() +
+                ", status='" + getStatus() + '\'' +
+                ", condition='" + getCondition() + '\'' +
                 '}';
     }
 
@@ -84,5 +92,21 @@ public class NotificationDTO implements Serializable {
 
     public void settTL(long tTL) {
         this.tTL = tTL;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
     }
 }
