@@ -14,6 +14,7 @@ public class Notification {
     private String body;
     // The notification's icon color, expressed in #rrggbb format.
     private String color;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     // Time-To-Live.How long the message will be kept in FCM storage if the target devices are offline.
     private long tTL;
