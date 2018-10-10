@@ -1,6 +1,7 @@
 package com.anuradha.fcmpushnotification.service.impl;
 
 import com.anuradha.fcmpushnotification.dto.NotificationDTO;
+import com.anuradha.fcmpushnotification.repository.NotificationRepository;
 import com.anuradha.fcmpushnotification.service.NotificationService;
 import com.anuradha.fcmpushnotification.util.ScheduleTask;
 import com.google.firebase.messaging.AndroidConfig;
@@ -17,10 +18,12 @@ public class NotificationServiceImpl implements NotificationService {
 
 
     private final ScheduleTask scheduleTask;
+    private final NotificationRepository notificationRepository;
 
     @Autowired
-    public NotificationServiceImpl(ScheduleTask scheduleTask) {
+    public NotificationServiceImpl(ScheduleTask scheduleTask, NotificationRepository notificationRepository) {
         this.scheduleTask = scheduleTask;
+        this.notificationRepository = notificationRepository;
     }
 
     @Override
@@ -65,7 +68,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public ResponseEntity<?> saveNotification(NotificationDTO notificationDTO) {
-        return null;
+
     }
 
 
