@@ -29,9 +29,6 @@ public class NotificationServiceImpl implements NotificationService {
     sendToTopic(NotificationDTO notificationDTO) throws FirebaseMessagingException {
 
 
-
-
-
         // Create message payload
         Message message = Message.builder()
                 .setAndroidConfig(AndroidConfig.builder()
