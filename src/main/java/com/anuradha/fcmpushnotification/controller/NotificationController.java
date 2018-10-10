@@ -36,27 +36,7 @@ public class NotificationController {
         }
     }
 
-    @PostMapping("/create-topic")
-    public ResponseEntity<?> createTopic(@RequestBody TopicDTO topicDTO) {
-        try {
-            return notificationService.createTopic(topicDTO);
-        } catch (FirebaseMessagingException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Topic creation failed...!", HttpStatus.BAD_REQUEST);
-        }
 
-    }
-
-    @PostMapping("/unsubscribe")
-    public ResponseEntity<?> unsubscribe(@RequestBody TopicDTO topicDTO) {
-        try {
-            return notificationService.unsubscribe(topicDTO);
-        } catch (FirebaseMessagingException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Unsubscribe task failed...!", HttpStatus.BAD_REQUEST);
-        }
-
-    }
 
 
 }
