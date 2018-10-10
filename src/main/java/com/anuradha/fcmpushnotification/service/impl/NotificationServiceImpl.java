@@ -1,10 +1,12 @@
 package com.anuradha.fcmpushnotification.service.impl;
 
 import com.anuradha.fcmpushnotification.dto.NotificationDTO;
-import com.anuradha.fcmpushnotification.dto.TopicDTO;
 import com.anuradha.fcmpushnotification.service.NotificationService;
 import com.anuradha.fcmpushnotification.util.ScheduleTask;
-import com.google.firebase.messaging.*;
+import com.google.firebase.messaging.AndroidConfig;
+import com.google.firebase.messaging.AndroidNotification;
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.firebase.messaging.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +24,9 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public ResponseEntity<?> sendToTopic(NotificationDTO notificationDTO) throws FirebaseMessagingException {
+    public ResponseEntity<?>
 
+    sendToTopic(NotificationDTO notificationDTO) throws FirebaseMessagingException {
 
         // Create message payload
         Message message = Message.builder()
@@ -58,8 +61,6 @@ public class NotificationServiceImpl implements NotificationService {
 
 
     }
-
-
 
 
 }
