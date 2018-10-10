@@ -8,5 +8,7 @@ public interface NotificationService {
 
     ResponseEntity<?> sendToTopic(NotificationDTO notificationDTO) throws FirebaseMessagingException;
 
+    ResponseEntity<?> saveNotification(NotificationDTO notificationDTO);
+
 
 }
