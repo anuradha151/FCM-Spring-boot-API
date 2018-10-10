@@ -11,4 +11,6 @@ public interface TopicService {
 
     ResponseEntity<?> unsubscribe(TopicDTO topicDTO) throws FirebaseMessagingException;
 
+    ResponseEntity<?> getAllTopics();
+
 }

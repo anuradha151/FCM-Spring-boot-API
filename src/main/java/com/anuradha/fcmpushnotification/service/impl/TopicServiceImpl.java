@@ -13,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class TopicServiceImpl implements TopicService {
 
@@ -64,8 +67,23 @@ public class TopicServiceImpl implements TopicService {
             return new ResponseEntity<>("topic unsubscription failed due to firebase server error", HttpStatus.EXPECTATION_FAILED);
         }
 //        topicRepository.dele
-        
+
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> getAllTopics() {
+        List<Topic> all = topicRepository.findAll();
+        if (all.isEmpty()) {
+            return new ResponseEntity<>("Not topics available in server. Please create one.", HttpStatus.NOT_FOUND);
+        }
+        List<TopicDTO> topicDTOS = new ArrayList<>();
+
+        for (Topic topic : all) {
+            TopicDTO topicDTO = entityToDTO(topic);
+            topicDTOS.add(topicDTO);
+        }
+        return new ResponseEntity<>(topicDTOS, HttpStatus.OK);
     }
 
     private Topic dTOToEntity(TopicDTO topicDTO) {
