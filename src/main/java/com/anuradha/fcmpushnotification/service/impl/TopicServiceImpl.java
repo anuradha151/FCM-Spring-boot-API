@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TopicServiceImpl implements TopicService {
@@ -75,7 +76,7 @@ public class TopicServiceImpl implements TopicService {
     public ResponseEntity<?> getAllTopics() {
         List<Topic> all = topicRepository.findAll();
         if (all.isEmpty()) {
-            return new ResponseEntity<>("Not topics available in server. Please create one.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No topics available in server. Please create one.", HttpStatus.NO_CONTENT);
         }
         List<TopicDTO> topicDTOS = new ArrayList<>();
 
@@ -88,7 +89,13 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public ResponseEntity<?> findTopicByName(String topic) {
-        return null;
+        Optional<Topic> byName = topicRepository.findByName(topic);
+        if (byName.isPresent()) {
+            Topic topic1 = byName.get();
+            TopicDTO topicDTO = entityToDTO(topic1);
+            return new ResponseEntity<>(topicDTO, HttpStatus.FOUND);
+        }
+        return new ResponseEntity<>("The topic you asked for is unavailable.", HttpStatus.NO_CONTENT);
 
     }
 
