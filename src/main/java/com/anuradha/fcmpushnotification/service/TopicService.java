@@ -13,4 +13,6 @@ public interface TopicService {
 
     ResponseEntity<?> getAllTopics();
 
+    ResponseEntity<?> findTopicByName(String topic);
+
 }
