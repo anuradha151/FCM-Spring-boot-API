@@ -28,9 +28,14 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public ResponseEntity<?>
+    public ResponseEntity<?> sendToTopic(NotificationDTO notificationDTO) throws FirebaseMessagingException {
+        Notification save = notificationRepository.save(dTOToEntity(notificationDTO));
+        if (save == null) {
+            return new ResponseEntity<>("Notification saving failed", HttpStatus.BAD_REQUEST);
+        }
+        if (notificationDTO.getCondition().equals("send-now")){
 
-    sendToTopic(NotificationDTO notificationDTO) throws FirebaseMessagingException {
+        }
 
 
         // Create message payload
@@ -69,10 +74,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public ResponseEntity<?> saveNotification(NotificationDTO notificationDTO) {
-        Notification save = notificationRepository.save(dTOToEntity(notificationDTO));
-        if (save == null) {
-            return new ResponseEntity<>("Notification saving failed", HttpStatus.BAD_REQUEST);
-        }
+
         return new ResponseEntity<>("Notification saved successfully", HttpStatus.OK);
     }
 

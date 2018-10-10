@@ -1,6 +1,5 @@
 package com.anuradha.fcmpushnotification.util;
 
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -26,6 +25,8 @@ public class ScheduleTask {
 
         this.count = 1;
 
+        System.out.println("send method");
+
 //        System.out.println("cron is running");
 //        FirebaseMessaging.getInstance().send(this.message);
 //        Date nowDate = new Date();
@@ -35,7 +36,7 @@ public class ScheduleTask {
 //
 //            return FirebaseMessaging.getInstance().send(message);
 //        }
-        sendCrone();
+//        sendCrone();
         return "alive";
 
     }
@@ -43,15 +44,15 @@ public class ScheduleTask {
     @Scheduled(cron = "* * * ? * *")
     public void sendCrone() {
 
-        System.out.println("cron is running : "+count);
-        try {
-            if (message != null){
-                FirebaseMessaging.getInstance().send(this.message);
-                count++;
-            }
-
-        } catch (FirebaseMessagingException e) {
-            e.printStackTrace();
+        System.out.println("cron is running : " + count);
+//        try {
+        if (message != null) {
+//                FirebaseMessaging.getInstance().send(this.message);
+            count++;
         }
+
+//        } catch (FirebaseMessagingException e) {
+//            e.printStackTrace();
+//        }
     }
 }
