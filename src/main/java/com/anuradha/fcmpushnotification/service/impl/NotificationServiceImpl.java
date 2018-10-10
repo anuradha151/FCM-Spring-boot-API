@@ -33,7 +33,7 @@ public class NotificationServiceImpl implements NotificationService {
         if (save == null) {
             return new ResponseEntity<>("Notification saving failed", HttpStatus.BAD_REQUEST);
         }
-        if (notificationDTO.getCondition().equals("send-now")){
+        if (notificationDTO.getCondition().equals("send-now")) {
 
         }
 
