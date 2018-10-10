@@ -1,42 +1,41 @@
 package com.anuradha.fcmpushnotification.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int uid;
+    private int user_id;
     private String name;
-    private String deviceToken;
+    @ManyToMany(mappedBy = "user")
+    private List<Topic> topics;
 
     public User() {
     }
 
-    public User(int uid, String name, String deviceToken) {
-        this.setUid(uid);
+    public User(String name, List<Topic> topics) {
         this.setName(name);
-        this.setDeviceToken(deviceToken);
+        this.setTopics(topics);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "uid=" + getUid() +
+                "user_id=" + getUid() +
                 ", name='" + getName() + '\'' +
-                ", deviceToken='" + getDeviceToken() + '\'' +
+                ", topics=" + getTopics() +
                 '}';
     }
 
     public int getUid() {
-        return uid;
+        return user_id;
     }
 
     public void setUid(int uid) {
-        this.uid = uid;
+        this.user_id = uid;
     }
 
     public String getName() {
@@ -47,11 +46,11 @@ public class User {
         this.name = name;
     }
 
-    public String getDeviceToken() {
-        return deviceToken;
+    public List<Topic> getTopics() {
+        return topics;
     }
 
-    public void setDeviceToken(String deviceToken) {
-        this.deviceToken = deviceToken;
+    public void setTopics(List<Topic> topics) {
+        this.topics = topics;
     }
 }
