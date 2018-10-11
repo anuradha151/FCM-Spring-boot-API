@@ -5,6 +5,7 @@ import com.anuradha.fcmpushnotification.dto.UserDTO;
 import com.anuradha.fcmpushnotification.model.Topic;
 import com.anuradha.fcmpushnotification.model.User;
 import com.anuradha.fcmpushnotification.repository.TopicRepository;
+import com.anuradha.fcmpushnotification.repository.UserRepository;
 import com.anuradha.fcmpushnotification.service.TopicService;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
@@ -21,12 +22,13 @@ import java.util.Optional;
 
 @Service
 public class TopicServiceImpl implements TopicService {
-
+    private final UserRepository userRepository;
     private final TopicRepository topicRepository;
 
     @Autowired
-    public TopicServiceImpl(TopicRepository topicRepository) {
+    public TopicServiceImpl(TopicRepository topicRepository, UserRepository userRepository) {
         this.topicRepository = topicRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -42,13 +44,21 @@ public class TopicServiceImpl implements TopicService {
             return new ResponseEntity<>("Existing topic. Please change the topic", HttpStatus.BAD_REQUEST);
         }
 
-        TopicManagementResponse response = null;
+        TopicManagementResponse response;
+        List<User> users = new ArrayList<>();
         try {
             List<String> deviceTokens = new ArrayList<>();
-            List<UserDTO> userDTOS = topicDTO.getUserDTOS();
-            for (UserDTO userDTO : userDTOS) {
-                deviceTokens.add(userDTO.getDeviceToken());
+
+            for (UserDTO userDTO : topicDTO.getUserDTOS()) {
+                Optional<User> byName1 = userRepository.getByName(userDTO.getName());
+                if (byName1.isPresent()) {
+                    System.out.println("device tokens : " + byName1.get().getDeviceToken());
+                    deviceTokens.add(byName1.get().getDeviceToken());
+                    users.add(byName1.get());
+                }
+
             }
+
             response = FirebaseMessaging.getInstance().subscribeToTopic(
                     deviceTokens,
                     topicDTO.getTopic()
@@ -58,7 +68,9 @@ public class TopicServiceImpl implements TopicService {
             return new ResponseEntity<>("Topic creation failed due to firebase server error", HttpStatus.EXPECTATION_FAILED);
         }
 
-        Topic save = topicRepository.save(dTOToEntity(topicDTO));
+        Topic topic = dTOToEntity(topicDTO);
+        topic.setUsers(users);
+        Topic save = topicRepository.save(topic);
         if (save == null) {
             return new ResponseEntity<>("Topic saving failed", HttpStatus.BAD_REQUEST);
         }
@@ -69,17 +81,22 @@ public class TopicServiceImpl implements TopicService {
     @Override
     @Async
     public ResponseEntity<?> unsubscribe(TopicDTO topicDTO) {
-        TopicManagementResponse response = null;
+        TopicManagementResponse response;
         try {
+            List<String> deviceTokens = new ArrayList<>();
+            List<UserDTO> userDTOS = topicDTO.getUserDTOS();
+            for (UserDTO userDTO : userDTOS) {
+                deviceTokens.add(userDTO.getDeviceToken());
+            }
             response = FirebaseMessaging.getInstance().unsubscribeFromTopic(
-                    topicDTO.getDeviceTokens(),
+                    deviceTokens,
                     topicDTO.getTopic()
             );
         } catch (FirebaseMessagingException e) {
             e.printStackTrace();
             return new ResponseEntity<>("topic unsubscription failed due to firebase server error", HttpStatus.EXPECTATION_FAILED);
         }
-//        topicRepository.dele
+
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -113,7 +130,7 @@ public class TopicServiceImpl implements TopicService {
 
     private Topic dTOToEntity(TopicDTO topicDTO) {
         Topic topic = new Topic();
-        topic.setTopic(topic.getTopic());
+        topic.setTopic(topicDTO.getTopic());
         List<User> users = new ArrayList<>();
         for (UserDTO userDTOS : topicDTO.getUserDTOS()) {
             User user = new User();

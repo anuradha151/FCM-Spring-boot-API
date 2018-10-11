@@ -17,11 +17,8 @@ public class TopicController {
         this.topicService = topicService;
     }
 
-    @PostMapping("/subscribe")
+    @PostMapping("subscribe")
     public ResponseEntity<?> createTopic(@RequestBody TopicDTO topicDTO) {
-
-        
-
 
         return topicService.subscribe(topicDTO);
 

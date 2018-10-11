@@ -7,7 +7,7 @@ import java.util.List;
 
 public class UserDTO implements Serializable {
 
-    private int user_id;
+    private long user_id;
     private String name;
     private String deviceToken;
     private List<Topic> topics;
@@ -15,7 +15,7 @@ public class UserDTO implements Serializable {
     public UserDTO() {
     }
 
-    public UserDTO(int user_id, String name, String deviceToken, List<Topic> topics) {
+    public UserDTO(long user_id, String name, String deviceToken, List<Topic> topics) {
         this.setUser_id(user_id);
         this.setName(name);
         this.setDeviceToken(deviceToken);
@@ -32,11 +32,11 @@ public class UserDTO implements Serializable {
                 '}';
     }
 
-    public int getUser_id() {
+    public long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(long user_id) {
         this.user_id = user_id;
     }
 

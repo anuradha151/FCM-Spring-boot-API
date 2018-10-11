@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -24,15 +25,15 @@ public class ScheduleTask {
 
     private void getAllPending() {
 
-        System.out.println("getAllPending");
+//        System.out.println("getAllPending");
 
         List<Notification> allPending = notificationRepository.getAllPending();
         if (!allPending.isEmpty()) {
-            Date nowDate = new Date();
+            Date nowDate = Calendar.getInstance().getTime();
             for (Notification notification : allPending) {
                 if (nowDate.equals(notification.getDate())) {
                     Message message = createMessage(notification);
-                    System.out.println("message send method");
+//                    System.out.println("message send method");
                     try {
                         FirebaseMessaging.getInstance().send(message);
                         if (notification.getSendingType().equals("send-later")) {
