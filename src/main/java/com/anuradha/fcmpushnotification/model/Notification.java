@@ -14,18 +14,17 @@ public class Notification {
     private String body;
     // The notification's icon color, expressed in #rrggbb format.
     private String color;
-    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     // Time-To-Live.How long the message will be kept in FCM storage if the target devices are offline.
     private long tTL;
     private String status;
     // sending time - NOW/LATER/ANNUALLY
-    private String condition;
+    private String sendingType;
 
     public Notification() {
     }
 
-    public Notification(String title, String topic, String body, String color, Date date, long tTL, String status, String condition) {
+    public Notification(String title, String topic, String body, String color, Date date, long tTL, String status, String sendingType) {
         this.setTitle(title);
         this.setTopic(topic);
         this.setBody(body);
@@ -33,7 +32,7 @@ public class Notification {
         this.setDate(date);
         this.settTL(tTL);
         this.setStatus(status);
-        this.setCondition(condition);
+        this.setSendingType(sendingType);
     }
 
     @Override
@@ -47,7 +46,7 @@ public class Notification {
                 ", date=" + getDate() +
                 ", tTL=" + gettTL() +
                 ", status='" + getStatus() + '\'' +
-                ", condition='" + getCondition() + '\'' +
+                ", sendingType='" + getSendingType() + '\'' +
                 '}';
     }
 
@@ -115,11 +114,11 @@ public class Notification {
         this.status = status;
     }
 
-    public String getCondition() {
-        return condition;
+    public String getSendingType() {
+        return sendingType;
     }
 
-    public void setCondition(String condition) {
-        this.condition = condition;
+    public void setSendingType(String sendingType) {
+        this.sendingType = sendingType;
     }
 }

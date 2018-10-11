@@ -16,12 +16,12 @@ public class NotificationDTO implements Serializable {
     // ALIVE or DEAD
     private String status;
     // sending time - NOW/LATER/ANNUALLY
-    private String condition;
+    private String sendingType;
 
     public NotificationDTO() {
     }
 
-    public NotificationDTO(String title, String topic, String body, String color, Date date, long tTL, String status, String condition) {
+    public NotificationDTO(String title, String topic, String body, String color, Date date, long tTL, String status, String sendingType) {
         this.setTitle(title);
         this.setTopic(topic);
         this.setBody(body);
@@ -29,7 +29,7 @@ public class NotificationDTO implements Serializable {
         this.setDate(date);
         this.settTL(tTL);
         this.setStatus(status);
-        this.setCondition(condition);
+        this.setSendingType(sendingType);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class NotificationDTO implements Serializable {
                 ", date=" + getDate() +
                 ", tTL=" + gettTL() +
                 ", status='" + getStatus() + '\'' +
-                ", condition='" + getCondition() + '\'' +
+                ", sendingType='" + getSendingType() + '\'' +
                 '}';
     }
 
@@ -102,11 +102,11 @@ public class NotificationDTO implements Serializable {
         this.status = status;
     }
 
-    public String getCondition() {
-        return condition;
+    public String getSendingType() {
+        return sendingType;
     }
 
-    public void setCondition(String condition) {
-        this.condition = condition;
+    public void setSendingType(String sendingType) {
+        this.sendingType = sendingType;
     }
 }

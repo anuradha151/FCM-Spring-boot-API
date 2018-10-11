@@ -1,58 +1,76 @@
 package com.anuradha.fcmpushnotification.util;
 
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
+import com.anuradha.fcmpushnotification.model.Notification;
+import com.anuradha.fcmpushnotification.repository.NotificationRepository;
+import com.google.firebase.messaging.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 @Component
 @EnableScheduling
 public class ScheduleTask {
 
-    private static Message message = null;
-    private static Date date = null;
+    private final NotificationRepository notificationRepository;
 
-    private static int count = 0;
+    @Autowired
+    public ScheduleTask(NotificationRepository notificationRepository) {
+        this.notificationRepository = notificationRepository;
+    }
 
+    private void getAllPending() {
 
-    public String send(Message message, Date date) throws FirebaseMessagingException {
+        System.out.println("getAllPending");
 
-        this.message = message;
-        this.date = date;
+        List<Notification> allPending = notificationRepository.getAllPending();
+        if (!allPending.isEmpty()) {
+            Date nowDate = new Date();
+            for (Notification notification : allPending) {
+                if (nowDate.equals(notification.getDate())) {
+                    Message message = createMessage(notification);
 
-        this.count = 1;
+                    System.out.println("message send method");
 
-        System.out.println("send method");
-
-//        System.out.println("cron is running");
-//        FirebaseMessaging.getInstance().send(this.message);
-//        Date nowDate = new Date();
-//        if (nowDate.equals(date)) {
-
-//            System.out.println("message send method");
-//
-//            return FirebaseMessaging.getInstance().send(message);
-//        }
-//        sendCrone();
-        return "alive";
+                    try {
+                        FirebaseMessaging.getInstance().send(message);
+                    } catch (FirebaseMessagingException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
 
     }
+
+    private Message createMessage(Notification notification) {
+        return Message.builder()
+                .setAndroidConfig(AndroidConfig.builder()
+                        // Time to live - 4 weeks default and maximum
+                        .setTtl(notification.gettTL()) //1 hour in milliseconds
+                        .setPriority(AndroidConfig.Priority.NORMAL)
+                        .setNotification(
+                                AndroidNotification
+                                        .builder()
+                                        .setTitle(notification.getTitle())
+                                        .setBody(notification.getBody())
+                                        .setColor(notification.getColor())
+                                        .build()
+                        )
+                        .build())
+                .setTopic(notification.getTopic())
+                .build();
+
+
+    }
+
 
     @Scheduled(cron = "* * * ? * *")
     public void sendCrone() {
 
-        System.out.println("cron is running : " + count);
-//        try {
-        if (message != null) {
-//                FirebaseMessaging.getInstance().send(this.message);
-            count++;
-        }
-
-//        } catch (FirebaseMessagingException e) {
-//            e.printStackTrace();
-//        }
+        getAllPending();
     }
 }
