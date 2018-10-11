@@ -1,7 +1,9 @@
 package com.anuradha.fcmpushnotification.service.impl;
 
 import com.anuradha.fcmpushnotification.dto.TopicDTO;
+import com.anuradha.fcmpushnotification.dto.UserDTO;
 import com.anuradha.fcmpushnotification.model.Topic;
+import com.anuradha.fcmpushnotification.model.User;
 import com.anuradha.fcmpushnotification.repository.TopicRepository;
 import com.anuradha.fcmpushnotification.service.TopicService;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -42,8 +44,13 @@ public class TopicServiceImpl implements TopicService {
 
         TopicManagementResponse response = null;
         try {
+            List<String> deviceTokens = new ArrayList<>();
+            List<UserDTO> userDTOS = topicDTO.getUserDTOS();
+            for (UserDTO userDTO : userDTOS) {
+                deviceTokens.add(userDTO.getDeviceToken());
+            }
             response = FirebaseMessaging.getInstance().subscribeToTopic(
-                    topicDTO.getDeviceTokens(),
+                    deviceTokens,
                     topicDTO.getTopic()
             );
         } catch (FirebaseMessagingException e) {
@@ -106,8 +113,16 @@ public class TopicServiceImpl implements TopicService {
 
     private Topic dTOToEntity(TopicDTO topicDTO) {
         Topic topic = new Topic();
-        topic.setTopic(topicDTO.getTopic());
-//        topic.set(topicDTO.getDeviceTokens());
+        topic.setTopic(topic.getTopic());
+        List<User> users = new ArrayList<>();
+        for (UserDTO userDTOS : topicDTO.getUserDTOS()) {
+            User user = new User();
+            user.setUser_id(userDTOS.getUser_id());
+            user.setName(userDTOS.getName());
+            user.setDeviceToken(userDTOS.getDeviceToken());
+            users.add(user);
+        }
+        topic.setUsers(users);
         return topic;
 
     }
@@ -115,7 +130,17 @@ public class TopicServiceImpl implements TopicService {
     private TopicDTO entityToDTO(Topic topic) {
         TopicDTO topicDTO = new TopicDTO();
         topicDTO.setTopic(topic.getTopic());
-//        topicDTO.setDeviceTokens(topic.getDeviceTokens());
+        List<UserDTO> userDTOS = new ArrayList<>();
+        for (User user : topic.getUsers()) {
+            UserDTO userDTO = new UserDTO();
+            userDTO.setUser_id(user.getUser_id());
+            userDTO.setName(user.getName());
+            userDTO.setDeviceToken(user.getDeviceToken());
+
+            userDTOS.add(userDTO);
+        }
+        topicDTO.setUserDTOS(userDTOS);
+
         return topicDTO;
     }
 }
