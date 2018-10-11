@@ -5,7 +5,7 @@ import java.util.List;
 public class TopicDTO {
     private long topic_id;
     private String topic;
-    private List<String> deviceTokens;
+    private List<UserDTO> deviceTokens;
 
     public TopicDTO() {
     }
