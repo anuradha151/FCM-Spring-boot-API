@@ -35,6 +35,11 @@ public class TopicServiceImpl implements TopicService {
             return new ResponseEntity<>("Topic details unavailable", HttpStatus.BAD_REQUEST);
         }
 
+        Optional<Topic> byName = topicRepository.findByName(topicDTO.getTopic());
+        if (byName.isPresent()) {
+            return new ResponseEntity<>("Existing topic. Please change the topic", HttpStatus.BAD_REQUEST);
+        }
+
         TopicManagementResponse response = null;
         try {
             response = FirebaseMessaging.getInstance().subscribeToTopic(

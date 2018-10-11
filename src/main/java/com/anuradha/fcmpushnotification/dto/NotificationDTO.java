@@ -13,7 +13,7 @@ public class NotificationDTO implements Serializable {
     private Date date;
     // Time-To-Live.How long the message will be kept in FCM storage if the target devices are offline.
     private long tTL;
-    // ALIVE or DEAD
+    // ACTIVE or INACTIVE
     private String status;
     // sending time - NOW/LATER/ANNUALLY
     private String sendingType;

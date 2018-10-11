@@ -10,32 +10,35 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int user_id;
     private String name;
+    private String deviceToken;
     @ManyToMany(mappedBy = "users")
     private List<Topic> topics;
 
     public User() {
     }
 
-    public User(String name, List<Topic> topics) {
+    public User(String name, String deviceToken, List<Topic> topics) {
         this.setName(name);
+        this.setDeviceToken(deviceToken);
         this.setTopics(topics);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "user_id=" + getUid() +
+                "user_id=" + getUser_id() +
                 ", name='" + getName() + '\'' +
+                ", deviceToken='" + getDeviceToken() + '\'' +
                 ", topics=" + getTopics() +
                 '}';
     }
 
-    public int getUid() {
+    public int getUser_id() {
         return user_id;
     }
 
-    public void setUid(int uid) {
-        this.user_id = uid;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     public String getName() {
@@ -44,6 +47,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 
     public List<Topic> getTopics() {

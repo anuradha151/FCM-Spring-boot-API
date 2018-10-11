@@ -32,11 +32,13 @@ public class ScheduleTask {
             for (Notification notification : allPending) {
                 if (nowDate.equals(notification.getDate())) {
                     Message message = createMessage(notification);
-
                     System.out.println("message send method");
-
                     try {
                         FirebaseMessaging.getInstance().send(message);
+                        if (notification.getSendingType().equals("send-later")) {
+                            notification.setStatus("inactive");
+                            notificationRepository.save(notification);
+                        }
                     } catch (FirebaseMessagingException e) {
                         e.printStackTrace();
                     }
