@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
 
-    @Query("SELECT n FROM Notification n WHERE n.status = 'active' ")
+    @Query("SELECT n FROM Notification n WHERE n.status = 'active'")
     List<Notification> getAllPending();
 
 }

@@ -11,12 +11,14 @@ public class NotificationDTO implements Serializable {
     // The notification's icon color, expressed in #rrggbb format.
     private String color;
     private Date date;
+
     // Time-To-Live.How long the message will be kept in FCM storage if the target devices are offline.
     private long tTL;
-    // ACTIVE or INACTIVE
+    // to-send or sent
     private String status;
-    // sending time - NOW/LATER/ANNUALLY
+    // sending time - NOW/DAILY/WEEKLY/MONTHLY
     private String sendingType;
+
 
     public NotificationDTO() {
     }

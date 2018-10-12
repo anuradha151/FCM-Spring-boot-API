@@ -4,6 +4,7 @@ import com.anuradha.fcmpushnotification.dto.NotificationDTO;
 import com.anuradha.fcmpushnotification.model.Notification;
 import com.anuradha.fcmpushnotification.repository.NotificationRepository;
 import com.anuradha.fcmpushnotification.service.NotificationService;
+import com.anuradha.fcmpushnotification.service.TopicService;
 import com.google.firebase.messaging.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,14 +17,19 @@ public class NotificationServiceImpl implements NotificationService {
 
     private final NotificationRepository notificationRepository;
 
-    @Autowired
-    public NotificationServiceImpl(NotificationRepository notificationRepository) {
+    private final TopicService topicService;
 
+    @Autowired
+    public NotificationServiceImpl(NotificationRepository notificationRepository, TopicService topicService) {
+        this.topicService = topicService;
         this.notificationRepository = notificationRepository;
     }
 
     @Override
     public ResponseEntity<?> sendToTopic(NotificationDTO notificationDTO) {
+
+
+
         Notification save = notificationRepository.save(dTOToEntity(notificationDTO));
         if (save == null) {
             return new ResponseEntity<>("Notification saving failed", HttpStatus.BAD_REQUEST);
